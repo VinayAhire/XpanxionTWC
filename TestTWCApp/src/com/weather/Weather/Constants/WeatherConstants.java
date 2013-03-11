@@ -29,7 +29,7 @@ public class WeatherConstants {
 
 	public static final String CITY_ATLANTA="Atlanta, GA";
 
-	public static final String CITY_FOR_ADD_LOCATION_TEST="San Jose, CA";
+	public static final String CITY_FOR_ADD_LOCATION_TEST="San Francisco, CA";
 
 	public static final String DEW_POINT_LABEL="DEW POINT";
 
@@ -66,4 +66,5 @@ public class WeatherConstants {
 	public static final String VIDEO_WORLD="WORLD";
 	
 	public static final String VIDEO_ON_TV="ON TV";
+	
 }
