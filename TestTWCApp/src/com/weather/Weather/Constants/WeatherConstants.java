@@ -66,6 +66,4 @@ public class WeatherConstants {
 	public static final String VIDEO_WORLD="WORLD";
 	
 	public static final String VIDEO_ON_TV="ON TV";
-	
-	public static final String VIDEO_ON_T="ON T";
 }
