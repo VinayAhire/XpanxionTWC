@@ -1,52 +1,39 @@
 package com.weather.Weather.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.util.Log;
-import android.widget.ImageView;
+import android.view.Surface;
 import android.widget.MediaController;
 
+import com.jayway.android.robotium.solo.Solo;
 import com.weather.Weather.R;
 import com.weather.Weather.Constants.WeatherConstants;
-import com.weather.Weather.Objects.VideoModuleObjects;
+import com.weather.Weather.Objects.VideoModuleObjets;
 import com.weather.Weather.Utility.UtilityClass;
-import com.weather.Weather.view.VideoViewWithMidpoint;
+import com.weather.Weather.activity.WeatherController;
+import com.weather.Weather.video.VideoMessage;
 
 public class VideoModule extends SetUpApplication {
+	UtilityClass utilobj = new UtilityClass();
+	private List<VideoMessage> emptyList = new ArrayList<VideoMessage>();
+	 
 
-	UtilityClass util = new UtilityClass();
-	VideoModuleObjects videoObj = new VideoModuleObjects();
+	VideoModuleObjets videoObj= new VideoModuleObjets();
 
-	public void checkVideoPlayButton() {
-		util.launchUiTab(WeatherConstants.VIDEOS_FRAGMENT, solo);
-		solo.sleep(20000);
-
-		VideoViewWithMidpoint videoView = (VideoViewWithMidpoint) solo
-				.getView(R.id.video_view);
-
-		ImageView playButton = (ImageView) solo.getView(R.id.play_button);
-		assertTrue(playButton.isShown());
-
-		solo.clickOnView(playButton);
-		solo.sleep(20000);
-		assertTrue(videoView.isPlaying());
-
-		videoView.pause();
-		System.out
-				.println("Current Position:" + videoView.getCurrentPosition());
-
-		System.out.println("Duration :" + videoView.getDuration());
-		solo.sleep(10000);
-		assertFalse(videoView.isPlaying());
+	public void launchVideosTab(){
+		utilobj.launchUiTab(WeatherConstants.VIDEOS_FRAGMENT, solo);
 	}
 
-	public void checkVideoIsPlaying() {
-		util.launchUiTab(WeatherConstants.VIDEOS_FRAGMENT, solo);
-		playVideo();
+	public void clickonMustSee(){
+		solo.clickOnView(videoObj.getMustSeeButton(solo));
+		solo.sleep(3000);
+		solo.clickOnView(videoObj.getLocalUSButton(solo));
+		solo.sleep(2000);
+
 	}
 
-	public void checkVideoIsPaused() {
-		util.launchUiTab(WeatherConstants.VIDEOS_FRAGMENT, solo);
-		pauseVideo();
-	}
 	
 	public void playVideo() {
 		int flagVideoLoaded = 0;
@@ -99,12 +86,47 @@ public class VideoModule extends SetUpApplication {
 					"Video is paused");
 		}
 	}
+
 	
-	/**
-	 * Work in progress.
-	 */
+	
+	public void checOrientationForVideoTab(){
+		WeatherController wc = (WeatherController) solo.getCurrentActivity();
+		utilobj.launchUiTab(WeatherConstants.VIDEOS_FRAGMENT, solo);
+		playVideo();
+		assertTrue(wc.getWindow().getWindowManager().getDefaultDisplay()
+				.getRotation() == Surface.ROTATION_0
+				|| ((wc.getWindow().getWindowManager().getDefaultDisplay()
+						.getRotation() == Surface.ROTATION_180)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(2000);
+		//playVideo();
+		assertTrue(wc.getWindow().getWindowManager().getDefaultDisplay()
+				.getRotation() == Surface.ROTATION_90
+				|| ((wc.getWindow().getWindowManager().getDefaultDisplay()
+						.getRotation() == Surface.ROTATION_270)));
+		
+	}
+	
+	public void searchAndAddLocation() throws InterruptedException{
+		utilobj.launchUiTab(WeatherConstants.VIDEOS_FRAGMENT, solo);
+		solo.clickOnActionBarItem(R.id.search);
+		solo.sleep(5000);
+		utilobj.enterCity(WeatherConstants.CITY_FOR_ADD_LOCATION_TEST,solo);
+	}
+	
+	public void checkVideoIsPlaying() {
+		utilobj.launchUiTab(WeatherConstants.VIDEOS_FRAGMENT, solo);
+		playVideo();
+	}
+
+	
+	public void checkVideoIsPaused() {
+		utilobj.launchUiTab(WeatherConstants.VIDEOS_FRAGMENT, solo);
+		pauseVideo();
+	}
+	
 	public void getHeightOfVideo() {
-		util.launchUiTab(WeatherConstants.VIDEOS_FRAGMENT, solo);
+		utilobj.launchUiTab(WeatherConstants.VIDEOS_FRAGMENT, solo);
 		solo.sleep(3000);
 		MediaController mc = new MediaController (solo.getCurrentActivity());
 		//mc.setAnchorView(videoObj.getVideoView(solo));
@@ -118,13 +140,15 @@ public class VideoModule extends SetUpApplication {
 		//mc.show();
 		solo.sleep(3000);
 	}
+
 	
 	public void checkVideoPlayingAndNavToOtherCategories() {
-		util.launchUiTab(WeatherConstants.VIDEOS_FRAGMENT, solo);
+		utilobj.launchUiTab(WeatherConstants.VIDEOS_FRAGMENT, solo);
 		playVideo();
 		navigateVideoModuleCategories(WeatherConstants.VIDEO_WORLD);
 		assertTrue((videoObj.getVideoView(solo)).isPlaying());
 	}
+
 	
 	public void navigateVideoModuleCategories(final String videoCategories) {
 		if (videoCategories.contains("MUST")) {
@@ -134,7 +158,7 @@ public class VideoModule extends SetUpApplication {
 		} else if (videoCategories.contains("WORLD")){
 			solo.clickOnView(videoObj.getWorldButton(solo));
 		} else if (videoCategories.contains("ON TV")){
-			solo.clickOnView(videoObj.getOnTVButton(solo));
+			solo.clickOnView(videoObj.getOnTvButton(solo));
 		}
 		solo.sleep(3000);
 	}
@@ -143,5 +167,8 @@ public class VideoModule extends SetUpApplication {
 		solo.sleep(2000);
 		return videoObj.getVideoView(solo).getDuration();
 	}
+
+
 	
+
 }

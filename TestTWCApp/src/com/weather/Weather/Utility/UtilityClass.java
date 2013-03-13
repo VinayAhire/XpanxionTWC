@@ -2,12 +2,13 @@ package com.weather.Weather.Utility;
 
 import junit.framework.Assert;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.jayway.android.robotium.solo.Solo;
 import com.weather.Weather.R;
 import com.weather.Weather.Constants.WeatherConstants;
+
+import com.jayway.android.robotium.solo.Solo;
 
 public class UtilityClass {
 
@@ -24,7 +25,7 @@ public class UtilityClass {
 		if (menuItem.equals(WeatherConstants.NOW_FRAGEMENT)) {
 			verifyNowFragment(solo);
 		} else if (menuItem.equals(WeatherConstants.VIDEOS_FRAGMENT)) {
-			//verifyVideosFragment(solo);
+			
 		} else if (menuItem.equals(WeatherConstants.MAP_FRAGEMENT)) {
 			
 		} else if (menuItem.equals(WeatherConstants.FORECAST_FRAGEMENT)) {
@@ -65,7 +66,6 @@ public class UtilityClass {
 	
 	public void verifyNowFragment(final Solo solo) {
 		LinearLayout circleRect = (LinearLayout)solo.getView(R.id.circle_rect);
-		solo.waitForView(circleRect);
 		Assert.assertTrue(circleRect.isShown());
 	}
 	
@@ -73,6 +73,16 @@ public class UtilityClass {
 		Button mustSeeVideos = (Button) solo.getButton(R.id.btn_must_see);
 		solo.waitForView(mustSeeVideos);
 		Assert.assertTrue(mustSeeVideos.isShown());
+	}
+
+	
+	public void enterCity(final String city,Solo solo) throws InterruptedException {
+		EditText textObj = (EditText) solo.getView(R.id.abs__search_src_text);
+		solo.enterText(textObj, city);
+		Thread.sleep(3000);
+		solo.waitForText(city, 2, 3000);
+		solo.clickLongOnText(city, 1);
+		solo.sleep(5000);
 	}
 
 }

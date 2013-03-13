@@ -3,7 +3,7 @@
 	<name>TestTWCApp</name>
 	<comment></comment>
 	<projects>
-		<project>flagship</project>
+		<project>WeatherController</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

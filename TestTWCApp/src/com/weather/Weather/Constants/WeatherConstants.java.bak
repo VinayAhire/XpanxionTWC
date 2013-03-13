@@ -55,17 +55,9 @@ public class WeatherConstants {
 
 	public static final String TAG_WEATHERCONTROLLER="WeatherController";
 
-	public static final String SEARCHBOX_TEXT="Zip/Place/Address";
-	
 	public static final String VIDEO_LOADING_TEXT="Loading Video";
 	
-	public static final String VIDEO_MUST_SEE="MUST SEE";
-	
-	public static final String VIDEO_LOCAL_US="LOCAL/U.S.";
-	
-	public static final String VIDEO_WORLD="WORLD";
-	
-	public static final String VIDEO_ON_TV="ON TV";
+	public static final String SEARCHBOX_TEXT="Zip/Place/Address";
 	
 	public static final String LOCATION_MISPLACE_POPUP="Oh No! We have ";
 
